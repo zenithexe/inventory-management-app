@@ -8,8 +8,8 @@ import { NextResponse } from "next/server";
 
 export async function GET(req){
     try{
-        const mongoose = connectMongo()
-            
+       
+        const db = connectMongo();  
         const users = await User
             .find()
             .select({username:1,name:1,isAdmin:1,_id:0})
@@ -23,7 +23,7 @@ export async function GET(req){
 
 export async function POST(req){
     try{
-        const mongoose = connectMongo();
+        const db = connectMongo();
         const body = await req.json();
 
         //Zod Validation
@@ -41,7 +41,7 @@ export async function POST(req){
         //Searching if User Already Exist
         const userFound = await User.findOne({username: userObj.username})
         console.log("userFound :", userFound)
-        if(userFound) return NextResponse.json({message:"User Already Exist"},{status:400});
+        if(userFound) return NextResponse.json({error:"User Already Exist"},{status:400});
 
         //Created User in DB
         const user = new User(userObj)

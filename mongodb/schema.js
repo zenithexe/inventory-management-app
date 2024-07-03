@@ -1,3 +1,5 @@
+import connectMongo from './connect'
+
 const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
@@ -33,10 +35,9 @@ const itemTypeSchema = mongoose.Schema({
     itemCount: Number
 })
 
-
-export const User = mongoose.model('User', userSchema);
-export const Item = mongoose.model('Item', itemSchema);
-export const ItemType = mongoose.model('ItemType', itemTypeSchema);
+export const User = mongoose.models.User || mongoose.model('User', userSchema);
+export const Item = mongoose.models.Item || mongoose.model('Item', itemSchema);
+export const ItemType = mongoose.models.ItemType || mongoose.model('ItemType', itemTypeSchema);
 
 
 

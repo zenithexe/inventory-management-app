@@ -6,8 +6,8 @@ import { z } from "zod";
 export async function GET(req, { params: { username }}){
     try{
         
-        const mongoose = connectMongo()
         
+        const db = connectMongo();
         const user = await User.findOne({username: username })
         
         if(!user) return NextResponse.json({message:'User Not Found'},{status:404});
