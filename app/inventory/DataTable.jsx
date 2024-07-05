@@ -22,7 +22,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import {
+  ArrowUpNarrowWide,
+  ArrowDownNarrowWide,
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -47,6 +53,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { set } from "zod";
+import Filter from "./Filter";
+import CategoryFilter from "./CategoryFilter";
+import ColumnVisibility from "./ColumnVisibility";
+import SearchBar from "./SearchBar";
+import TablePagination from "./TablePagination";
+import MainTable from "./MainTable";
 
 const columns = [
   {
@@ -72,15 +84,8 @@ const columns = [
 ];
 
 export default function DataTable({ data, category }) {
-  const [showAll, setShowAll] = useState(true);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const [columnFilters, setColumnFilters] = useState([]);
-
-  useEffect(() => {
-    console.log(columnFilters);
-    console.log(table.getColumn("category").getFilterValue());
-    console.log(table.getColumn("category").getFilterFn());
-  }, [columnFilters]);
 
   const table = useReactTable({
     data: data,
@@ -110,202 +115,24 @@ export default function DataTable({ data, category }) {
     console.log("Filter Fns \n", table.getColumn("category").getFilterFn());
   }, [columnFilters]);
 
-  // console.log(table.getColumn('category').getFilterFn())
   return (
-    <div className="w-auto m-2">
-      <Button
-        onClick={(event) => {
-          setColumnFilters([{ id: "quantity", value: [10, 20] }]);
-        }}
-      >
-        Check
-      </Button>
-
+    <div className="w-auto m-2 flex flex-col gap-2">
       <div className="flex justify-start gap-1">
-        <Input
-          placeholder="Search Item"
-          value={table.getColumn("name").getFilterValue() ?? ""}
-          onChange={(event) => {
-            table.getColumn("name").setFilterValue(event.target.value);
-          }}
-          className="max-w-sm"
+        <SearchBar table={table} />
+        <Filter
+          table={table}
+          columnFilters={columnFilters}
+          setColumnFilters={setColumnFilters}
         />
-        <Popover>
-          <PopoverTrigger>
-            <Button variant="outline">
-              Filter <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-            <PopoverContent className="w-80">
-              <div className="grid gap-4">
-                <div className="space-y-2">
-                  <h4 className="font-medium leading-none">Quantity</h4>
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex gap-2">
-                    <div className="">
-                      <p className="text-sm text-muted-foreground">Min</p>
-                      <Input id="priceMin" type="number" className="col-span-2 h-8" />
-                    </div>
-                    <div className="">
-                      <p className="text-sm text-muted-foreground">Max</p>
-                      <Input id="priceMax" type="number" className="col-span-2 h-8" />
-                    </div>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <h4 className="font-medium leading-none">Price</h4>
-                  <div className="flex gap-2">
-                    <div className="">
-                      <p className="text-sm text-muted-foreground">Min</p>
-                      <Input id="priceMin" type="number" className="col-span-2 h-8" />
-                    </div>
-                    <div className="">
-                      <p className="text-sm text-muted-foreground">Max</p>
-                      <Input id="priceMax" type="number" className="col-span-2 h-8" />
-                    </div>
-                  </div>
-                </div>
-                <Button>Apply Filter</Button>
-              </div>
-            </PopoverContent>
-          </PopoverTrigger>
-        </Popover>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="outline" className="ml-auto">
-              Category <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuCheckboxItem
-              key="all"
-              checked={showAll}
-              onSelect={(e) => {
-                setShowAll(true);
-                setColumnFilters([]);
-              }}
-            >
-              Show All
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuSeparator />
-            {category.map((option) => (
-              <DropdownMenuCheckboxItem
-                key={option}
-                checked={option == table.getColumn("category").getFilterValue()}
-                onSelect={(event) => {
-                  setColumnFilters((prev) => {
-                    const categories = prev.find(
-                      (item) => item.id === "category"
-                    );
-
-                    if (!categories)
-                      return prev.concat({
-                        id: "category",
-                        value: event.srcElement.innerText,
-                      });
-
-                    const others = prev.filter((item) => item.id != "category");
-                    return others.concat({
-                      id: "category",
-                      value: event.srcElement.innerText,
-                    });
-                  });
-                  setShowAll(false);
-                }}
-              >
-                {option}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <CategoryFilter
+          table={table}
+          setColumnFilters={setColumnFilters}
+          filterValues={category}
+        />
+        <ColumnVisibility table={table} />
       </div>
-
-      <div className="flex items-center py-4">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-
-          <TableBody>
-            {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {/* {flexRender(cell.column.columnDef.cell, cell.getContext())} */}
-                    {cell.getValue()}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      <Button
-        onClick={() => table.firstPage()}
-        disabled={!table.getCanPreviousPage()}
-      >
-        {"<<"}
-      </Button>
-      <Button
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
-      >
-        {"<"}
-      </Button>
-      <Button
-        onClick={() => table.nextPage()}
-        disabled={!table.getCanNextPage()}
-      >
-        {">"}
-      </Button>
-      <Button
-        onClick={() => table.lastPage()}
-        disabled={!table.getCanNextPage()}
-      >
-        {">>"}
-      </Button>
+      <MainTable table={table} />
+      <TablePagination table={table} setPagination={setPagination} />
     </div>
   );
 }
