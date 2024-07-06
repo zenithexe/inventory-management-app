@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Label } from "@/components/ui/label";
 
 import {
@@ -7,6 +7,7 @@ import {
   ColumnFiltersState,
   SortingState,
   VisibilityState,
+  createColumnHelper,
   filterFns,
   flexRender,
   getCoreRowModel,
@@ -60,6 +61,7 @@ import SearchBar from "./SearchBar";
 import TablePagination from "./TablePagination";
 import MainTable from "./MainTable";
 
+
 const columns = [
   {
     header: "Item ID",
@@ -81,11 +83,34 @@ const columns = [
     header: "Price",
     accessorKey: "price",
   },
+  {
+    id: "options",
+    enableHiding: false,
+    cell: () => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>View Item</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
 
 export default function DataTable({ data, category }) {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const [columnFilters, setColumnFilters] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data: data,
@@ -99,37 +124,32 @@ export default function DataTable({ data, category }) {
     onColumnFiltersChange: setColumnFilters,
 
     getSortedRowModel: getSortedRowModel(),
+    onRowSelectionChange: setRowSelection,
 
     state: {
       pagination,
       columnFilters,
+      rowSelection,
     },
   });
 
-  useEffect(() => {
-    console.log("Column Filters ::", columnFilters);
-    console.log(
-      "Filter Value ::",
-      table.getColumn("category").getFilterValue()
-    );
-    console.log("Filter Fns \n", table.getColumn("category").getFilterFn());
-  }, [columnFilters]);
-
   return (
-    <div className="w-auto m-2 flex flex-col gap-2">
-      <div className="flex justify-start gap-1">
+    <div className="w-auto flex flex-col gap-2">
+      <div className="flex justify-between gap-1">
         <SearchBar table={table} />
-        <Filter
-          table={table}
-          columnFilters={columnFilters}
-          setColumnFilters={setColumnFilters}
-        />
-        <CategoryFilter
-          table={table}
-          setColumnFilters={setColumnFilters}
-          filterValues={category}
-        />
-        <ColumnVisibility table={table} />
+        <div className="flex gap-2">
+          <Filter
+            table={table}
+            columnFilters={columnFilters}
+            setColumnFilters={setColumnFilters}
+          />
+          <CategoryFilter
+            table={table}
+            setColumnFilters={setColumnFilters}
+            filterValues={category}
+          />
+          <ColumnVisibility table={table} />
+        </div>
       </div>
       <MainTable table={table} />
       <TablePagination table={table} setPagination={setPagination} />

@@ -10,7 +10,11 @@ const userSchema = mongoose.Schema({
         required: true
     },
     hpassword: String,
-    isAdmin: Boolean
+    isAdmin: Boolean,
+    created: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
 const itemSchema = mongoose.Schema({
@@ -23,10 +27,14 @@ const itemSchema = mongoose.Schema({
     description: String,
     quantity: Number,
     price: Number,
-    category: [{
+    category:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'itemType'
-    }]
+    },
+    created: {
+        type: Date,
+        default: Date.now()
+    }
      
 })
 
