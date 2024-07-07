@@ -9,7 +9,8 @@ const userSchema = mongoose.Schema({
         unique: true,
         required: true
     },
-    hpassword: String,
+    email: String,
+    password: String,
     isAdmin: Boolean,
     created: {
         type: Date,

@@ -34,7 +34,7 @@ export async function POST(req){
         const userObj = {
             name: body.name,
             username: body.username,
-            hpassword: hpassword,
+            password: hpassword,
             isAdmin: body.isAdmin
         }
 
