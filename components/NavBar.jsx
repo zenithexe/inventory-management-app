@@ -14,9 +14,16 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Briefcase, CircleUserRound, LogOut, Package, Tags, Users } from "lucide-react";
+import {
+  Briefcase,
+  CircleUserRound,
+  LogOut,
+  Package,
+  Tags,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
-import logo from "../public/assets/inventory.png"
+import logo from "../public/assets/inventory.png";
 
 function NavBar() {
   return (
@@ -25,9 +32,12 @@ function NavBar() {
         <div className="flex h-screen w-16 flex-col justify-between border-e bg-white">
           <div>
             <div className="inline-flex size-16 items-center justify-center">
-              <span className="grid size-10 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
-              <Package />
-              </span>
+              <Link href="/">
+                <span className="grid size-10 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
+                  <Package />
+                </span>
+                
+              </Link>
             </div>
 
             <div className="border-t border-gray-100">

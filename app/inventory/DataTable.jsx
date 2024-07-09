@@ -107,10 +107,56 @@ const columns = [
   },
 ];
 
-export default function DataTable({ data, category }) {
+export default function DataTable({ data, category, session }) {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const [columnFilters, setColumnFilters] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
+
+  const columns = [
+    {
+      header: "Item ID",
+      accessorKey: "itemId",
+    },
+    {
+      header: "Name",
+      accessorKey: "name",
+    },
+    {
+      header: "Category",
+      accessorKey: "category",
+    },
+    {
+      header: "Quantity",
+      accessorKey: "quantity",
+    },
+    {
+      header: "Price",
+      accessorKey: "price",
+    },
+    {
+      id: "options",
+      enableHiding: false,
+      cell: () => {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>View Item</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+              {session.user.isAdmin && <DropdownMenuItem>Delete</DropdownMenuItem>}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
 
   const table = useReactTable({
     data: data,

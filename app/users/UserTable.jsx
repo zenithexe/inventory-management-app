@@ -6,7 +6,7 @@ import {
   flexRender,
   getFilteredRowModel,
 } from "@tanstack/react-table";
-import React from "react";
+import React, { useMemo } from "react";
 import { useState } from "react";
 
 import {
@@ -54,57 +54,107 @@ const user = [
   },
 ];
 
-const userColumns = [
-  {
-    header: "Username",
-    accessorKey: "username",
-  },
-  {
-    header: "Name",
-    accessorKey: "name",
-  },
-  {
-    header: "Role",
-    accessorKey: "isAdmin",
-    cell: (cell) => (
-      <Badge variant="secondary">{cell.getValue() ? "Admin" : "User"}</Badge>
-    ),
-  },
-  {
-    header: "Created At",
-    accessorKey: "created",
-  },
-  {
-    id: "options",
-    enableHiding: false,
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>View User</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit User</DropdownMenuItem>
-            <DropdownMenuItem>Delete User</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+// const userColumns = [
+//   {
+//     header: "Username",
+//     accessorKey: "username",
+//   },
+//   {
+//     header: "Name",
+//     accessorKey: "name",
+//   },
+//   {
+//     header: "Role",
+//     accessorKey: "isAdmin",
+//     cell: (cell) => (
+//       <Badge variant="secondary">{cell.getValue() ? "Admin" : "User"}</Badge>
+//     ),
+//   },
+//   {
+//     header: "Created At",
+//     accessorKey: "created",
+//   },
+//   {
+//     id: "options",
+//     enableHiding: false,
+//     cell: () => {
+//       return (
+        
+//         <DropdownMenu>
+//           <DropdownMenuTrigger asChild>
+//             <Button variant="ghost" className="h-8 w-8 p-0">
+//               <span className="sr-only">Open menu</span>
+//               <MoreHorizontal className="h-4 w-4" />
+//             </Button>
+//           </DropdownMenuTrigger>
+//           <DropdownMenuContent>
+//             <DropdownMenuItem>View User</DropdownMenuItem>
+//             <DropdownMenuSeparator />
+//             <DropdownMenuItem>Edit User</DropdownMenuItem>
+//             <DropdownMenuItem>Delete User</DropdownMenuItem>
+//           </DropdownMenuContent>
+//         </DropdownMenu>
+//       );
+//     },
+//   },
+// ];
 
-function UserTable() {
+function UserTable({session}) {
+  
+  const userColumns = [
+    {
+      header: "Username",
+      accessorKey: "username",
+    },
+    {
+      header: "Name",
+      accessorKey: "name",
+    },
+    {
+      header: "Role",
+      accessorKey: "isAdmin",
+      cell: (cell) => (
+        <Badge variant="secondary">{cell.getValue() ? "Admin" : "User"}</Badge>
+      ),
+    },
+    {
+      header: "Created At",
+      accessorKey: "created",
+    },
+    {
+      id: "options",
+      enableHiding: false,
+      cell: () => {
+        return (
+          session.user.isAdmin &&
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>View User</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Edit User</DropdownMenuItem>
+              <DropdownMenuItem>Delete User</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+  
   const userTable = useReactTable({
     data: user,
     columns: userColumns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+
+
   return (
     <>
       <div className="w-auto flex flex-col gap-2">

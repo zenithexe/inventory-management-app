@@ -3,8 +3,16 @@ import AddUserButton from "./AddUserButton";
 import EditProfileButton from "./EditProfileButton";
 import UserTable from "./UserTable";
 import UserAvatar from "@/components/UserAvatar";
+import { getSessionUser } from "@/lib/session";
+import { auth } from "../auth";
+import { redirect } from "next/navigation";
 
-export default function UsersPage() {
+
+export default async function UsersPage() {
+  const session = await auth()
+  if(!session) redirect('/login')
+  
+  
   return (
     <>
       <div className="">
@@ -14,20 +22,16 @@ export default function UsersPage() {
               <div>
                 <h1 className="text-[30px] font-mono font-semibold">Users</h1>
                 <p className="font-mono">
-                  This Page contains all the registered users. This is only
-                  visible by an admin.
+                  This Page contains all the registered users.
                 </p>
               </div>
               <div className="pt-2">
                 <UserAvatar />
               </div>
             </div>
-            <div className="mb-10 flex gap-2">
-              <AddUserButton />
-            </div>
-            <div className="w-full">
-              <UserTable />
-            </div>
+            
+            {session.user.isAdmin && <div className="mb-10 flex gap-2"><AddUserButton /></div>}
+            <div className="w-full"><UserTable session={session}/></div>
           </div>
         </div>
       </div>

@@ -2,8 +2,13 @@ import React from "react";
 import AddCategoryButton from "./AddCategoryButton";
 import CategoryTable from "./CategoryTable";
 import UserAvatar from "@/components/UserAvatar";
+import { auth } from "../auth";
+import { redirect } from "next/navigation";
 
-export default function CategoryPage() {
+export default async function CategoryPage() {
+  const session = await auth()
+  if(!session) redirect('/login')
+  
   return (
     <>
       <div className="">
@@ -20,11 +25,9 @@ export default function CategoryPage() {
                 <UserAvatar />
               </div>
             </div>
-            <div className="mb-10 flex gap-2">
-              <AddCategoryButton />
-            </div>
+            {session.user.isAdmin && <div className="mb-10 flex gap-2"> <AddCategoryButton /></div>}
             <div className="w-full">
-              <CategoryTable />
+              <CategoryTable session={session} />
             </div>
           </div>
         </div>
