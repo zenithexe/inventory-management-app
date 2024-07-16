@@ -4,10 +4,15 @@ import CategoryTable from "./CategoryTable";
 import UserAvatar from "@/components/UserAvatar";
 import { auth } from "../auth";
 import { redirect } from "next/navigation";
+import connectMongo from "@/mongodb/connect";
+import { Category } from "@/mongodb/schema";
 
 export default async function CategoryPage() {
   const session = await auth()
   if(!session) redirect('/login')
+
+  const db = connectMongo()
+  const category = await Category.find()
   
   return (
     <>
@@ -27,7 +32,7 @@ export default async function CategoryPage() {
             </div>
             {session.user.isAdmin && <div className="mb-10 flex gap-2"> <AddCategoryButton /></div>}
             <div className="w-full">
-              <CategoryTable session={session} />
+              <CategoryTable data={category} session={session} />
             </div>
           </div>
         </div>

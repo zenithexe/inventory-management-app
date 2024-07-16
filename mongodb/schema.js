@@ -22,7 +22,6 @@ const itemSchema = mongoose.Schema({
     itemId: {
         type: String,
         required: true,
-        unique: true
     },
     name: String,
     description: String,
@@ -30,7 +29,7 @@ const itemSchema = mongoose.Schema({
     price: Number,
     category:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'itemType'
+        ref: 'Category',
     },
     created: {
         type: Date,
@@ -39,14 +38,15 @@ const itemSchema = mongoose.Schema({
      
 })
 
-const itemTypeSchema = mongoose.Schema({
+const categorySchema = mongoose.Schema({
+    categoryId: String,
     name: String,
     itemCount: Number
 })
 
 export const User = mongoose.models.User || mongoose.model('User', userSchema);
 export const Item = mongoose.models.Item || mongoose.model('Item', itemSchema);
-export const ItemType = mongoose.models.ItemType || mongoose.model('ItemType', itemTypeSchema);
+export const Category = mongoose.models.Category || mongoose.model('Category', categorySchema);
 
 
 

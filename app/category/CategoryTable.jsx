@@ -33,53 +33,14 @@ import { MoreHorizontal } from "lucide-react";
 
 import SearchBar from "./SearchBar";
 
-const data = [
-  {
-    name: "Cat1",
-    itemCount: 10,
-    
-  },
-  {
-    name: "Cat2",
-    itemCount: 11,
-  },
-];
 
-const columns = [
-
-  {
-    header: "Category Name",
-    accessorKey: "name",
-  },
-  {
-    header: "Item Count",
-    accessorKey: "itemCount",
-  },
-  {
-    id: "options",
-    enableHiding: false,
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Edit User</DropdownMenuItem>
-            <DropdownMenuItem>Delete User</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
-function CategoryTable({session}) {
+function CategoryTable({data, session}) {
 
   const columns = [
+    {
+      header:"Category ID",
+      accessorKey:"categoryId"
+    },
 
     {
       header: "Category Name",
@@ -119,6 +80,8 @@ function CategoryTable({session}) {
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+  
   return (
     <>
       <div className="w-auto flex flex-col gap-2">

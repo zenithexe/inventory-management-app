@@ -28,7 +28,7 @@ import logo from "../public/assets/inventory.png";
 function NavBar() {
   return (
     <>
-      <div className="float-left mr-4">
+      <div className="float-left fixed mr-4">
         <div className="flex h-screen w-16 flex-col justify-between border-e bg-white">
           <div>
             <div className="inline-flex size-16 items-center justify-center">

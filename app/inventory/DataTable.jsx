@@ -60,54 +60,61 @@ import ColumnVisibility from "./ColumnVisibility";
 import SearchBar from "./SearchBar";
 import TablePagination from "./TablePagination";
 import MainTable from "./MainTable";
+import AddItemButton from "./AddItemButton";
 
+// const data = [
+//   {
+//     itemId: 1,
+//     name: "Jalish",
+//     category: "B",
+//     quantity: 60,
+//     price: 100,
+//   },
+//   {
+//     itemId: 2,
+//     name: "Ricku",
+//     category: "C",
+//     quantity: 50,
+//     price: 101,
+//   },
+//   {
+//     itemId: 1,
+//     name: "Ricku",
+//     category: "A",
+//     quantity: 40,
+//     price: 120,
+//   },
+//   {
+//     itemId: 2,
+//     name: "Ricku",
+//     category: "B",
+//     quantity: 30,
+//     price: 130,
+//   },
+//   {
+//     itemId: 1,
+//     name: "Ricku",
+//     category: "N",
+//     quantity: 20,
+//     price: 150,
+//   },
+//   {
+//     itemId: 2,
+//     name: "Ricku",
+//     category: "A",
+//     quantity: 10,
+//     price: 100,
+//   },
+//   {
+//     itemId: 1,
+//     name: "Ricku",
+//     category: "Z",
+//     quantity: 10,
+//     price: 100,
+//   },
+// ];
 
-const columns = [
-  {
-    header: "Item ID",
-    accessorKey: "itemId",
-  },
-  {
-    header: "Name",
-    accessorKey: "name",
-  },
-  {
-    header: "Category",
-    accessorKey: "category",
-  },
-  {
-    header: "Quantity",
-    accessorKey: "quantity",
-  },
-  {
-    header: "Price",
-    accessorKey: "price",
-  },
-  {
-    id: "options",
-    enableHiding: false,
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>View Item</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
-export default function DataTable({ data, category, session }) {
+export default function DataTable({ data, category, categoryFilters, session }) {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const [columnFilters, setColumnFilters] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -149,7 +156,9 @@ export default function DataTable({ data, category, session }) {
               <DropdownMenuItem>View Item</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Edit</DropdownMenuItem>
-              {session.user.isAdmin && <DropdownMenuItem>Delete</DropdownMenuItem>}
+              {session.user.isAdmin && (
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -180,25 +189,30 @@ export default function DataTable({ data, category, session }) {
   });
 
   return (
-    <div className="w-auto flex flex-col gap-2">
-      <div className="flex justify-between gap-1">
-        <SearchBar table={table} />
-        <div className="flex gap-2">
-          <Filter
-            table={table}
-            columnFilters={columnFilters}
-            setColumnFilters={setColumnFilters}
-          />
-          <CategoryFilter
-            table={table}
-            setColumnFilters={setColumnFilters}
-            filterValues={category}
-          />
-          <ColumnVisibility table={table} />
-        </div>
+    <>
+      <div className="mb-10">
+        <AddItemButton category={category} />
       </div>
-      <MainTable table={table} />
-      <TablePagination table={table} setPagination={setPagination} />
-    </div>
+      <div className="w-auto flex flex-col gap-2">
+        <div className="flex justify-between gap-1">
+          <SearchBar table={table} />
+          <div className="flex gap-2">
+            <Filter
+              table={table}
+              columnFilters={columnFilters}
+              setColumnFilters={setColumnFilters}
+            />
+            <CategoryFilter
+              table={table}
+              setColumnFilters={setColumnFilters}
+              filterValues={categoryFilters}
+            />
+            <ColumnVisibility table={table} />
+          </div>
+        </div>
+        <MainTable table={table} />
+        <TablePagination table={table} setPagination={setPagination} />
+      </div>
+    </>
   );
 }

@@ -2,11 +2,11 @@ import connectMongo from "@/mongodb/connect";
 import { ItemType } from "@/mongodb/schema";
 import { NextResponse } from "next/server";
 
-export async function GET(req, {params:{ typeName }}){
+export async function GET(req, {params:{ category }}){
     try{
         const db = connectMongo();
 
-        const itemType = await ItemType.findOne({name: typeName})
+        const itemType = await ItemType.findOne({name: category})
 
         if(!itemType) return NextResponse.json({error:"Item Type not found"},{status:404});
 

@@ -140,7 +140,7 @@ function RegisterForm() {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Register As</Label>
                 <Select name="role" defaultValue="admin">
-                  <SelectTrigger id="framework">
+                  <SelectTrigger id="role">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent position="popper">

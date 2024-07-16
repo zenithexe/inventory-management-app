@@ -1,18 +1,8 @@
-import NavBar from "@/components/NavBar";
-import Image from "next/image";
-import HomeCompo from "./Home";
+
 import { Package, ShieldCheck, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -27,8 +17,7 @@ export default function HomePage() {
         </h1>
         <p className="font-mono text-center">
           This is a full-stack inventory management project,
-          <br /> made using <Badge variant="secondary">Nextjs</Badge> and{" "}
-          <Badge variant="secondary">MongoDB</Badge>
+          <br/> made using <Badge variant="secondary">Nextjs</Badge> and <Badge variant="secondary">MongoDB</Badge>
         </p>
         <Link href="/login">
           <Button className="my-10 " variant="outline">
