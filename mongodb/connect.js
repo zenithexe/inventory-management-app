@@ -7,7 +7,5 @@ export default async function connectMongo(){
     .then(()=> console.log("Connected to DB"))
     .catch((err) => console.error('Error :', err))
     
-    console.log("Connected to DB outside connect promise....")
-    
     return mongoose 
 }

@@ -56,6 +56,13 @@ function AddItemButton({ category }) {
     const quantity = formData.get("quantity")
     const price = formData.get("price")
 
+    if(!itemId) return setError({error:true, message:"Item ID required."})
+    if(!name) return setError({error:true, message:"Item name required."})
+    if(!category) return setError({error:true, message:"Select a category."})
+    if(!description) return setError({error:true, message:"Item description required."})
+    if(!quantity) return setError({error:true, message:"Quantity is missing."})
+    if(!price) return setError({error:true, message:"Price is missing."})
+
     const item = {
       itemId,
       name,
@@ -84,7 +91,9 @@ function AddItemButton({ category }) {
         title:`${body.item.name} Added`,
         description:"Item successfully added to inventory.",
       })
+
       setDialogOpen(false)
+      router.refresh()
 
     } catch(err) {
       console.log("There is Error::::::",err)

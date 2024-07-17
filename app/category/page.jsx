@@ -12,7 +12,8 @@ export default async function CategoryPage() {
   if(!session) redirect('/login')
 
   const db = connectMongo()
-  const category = await Category.find()
+  const categoryDB = await Category.find()
+  const category = JSON.parse(JSON.stringify(categoryDB))
   
   return (
     <>

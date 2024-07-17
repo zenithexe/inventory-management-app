@@ -13,6 +13,9 @@ import {
     ArrowUpNarrowWide,
     ArrowDownNarrowWide,
     ArrowUpDown,
+    ChevronsUpDown,
+    ChevronUp,
+    ChevronDown,
   } from "lucide-react";
 
 function MainTable({ table }) {
@@ -35,7 +38,7 @@ function MainTable({ table }) {
                             )}
                         {header.column.getCanSort() &&
                           !header.column.getIsSorted() && (
-                            <ArrowUpDown
+                            <ChevronsUpDown
                               className="mt-[2px] ml-1  h-4 w-4"
                               onClick={header.column.getToggleSortingHandler()}
                             />
@@ -43,13 +46,13 @@ function MainTable({ table }) {
                         {
                           {
                             asc: (
-                              <ArrowDownNarrowWide
+                              <ChevronUp
                                 className="mt-[2px] ml-1  h-4 w-4"
                                 onClick={header.column.getToggleSortingHandler()}
                               />
                             ),
                             desc: (
-                              <ArrowUpNarrowWide
+                              <ChevronDown
                                 className="mt-[2px] ml-1  h-4 w-4"
                                 onClick={header.column.getToggleSortingHandler()}
                               />

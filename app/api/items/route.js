@@ -36,7 +36,7 @@ export async function POST(req){
         //Zod Validation
         const zodV = itemZSchema.safeParse(itemObj)
     
-        if(zodV.success==false) return NextResponse.json({error:"Input Data Missing."},{status:400});
+        if(zodV.success==false) return NextResponse.json({error:"Server : Bad Body Request"},{status:400});
 
     
         const itemFound = await Item.findOne({itemId: itemObj.itemId})
