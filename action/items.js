@@ -36,7 +36,7 @@ export const updateItem = async (item) => {
       {new: true}
     );
 
-    if(!result) return {success:false, message:"Can't Update."}
+    if(!result) return {success:false, message:"Error: Can't Update."}
 
     return JSON.stringify({success:true, item: result})
     
@@ -45,3 +45,19 @@ export const updateItem = async (item) => {
     return {success:false, message: "Server Error."}
   }
 };
+
+export const deleteItem = async (itemId) => {
+  try{
+    const db = connectMongo();
+    const result = await Item.deleteOne({itemId:itemId})
+    if(!result.acknowledged) return {success:false, message:"There is some Error"}
+
+    
+    return JSON.stringify({success:true, result:result})
+
+  }catch(err){
+    console.log("Error ::", err)
+    return {success:false, message:"Server Error."}
+  }
+  
+}

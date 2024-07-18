@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React , {useState} from "react";
 import {
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
   flexRender,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -16,25 +17,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Button } from "@/components/ui/button";
+
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "lucide-react";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+
+
 
 import SearchBar from "./SearchBar";
+import TablePagination from "./TablePagination";
+import CategoryDropdownMenu from "./CategoryDropdownMenu";
+
 
 
 function CategoryTable({data, session}) {
+
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 
   const columns = [
     {
@@ -53,21 +51,9 @@ function CategoryTable({data, session}) {
     {
       id: "options",
       enableHiding: false,
-      cell: () => {
+      cell: ({row}) => {
         return (
-          session.user.isAdmin &&
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
-               <DropdownMenuItem>Delete</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <CategoryDropdownMenu row={row} session={session}/>
         );
       },
     },
@@ -78,7 +64,16 @@ function CategoryTable({data, session}) {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+
     getFilteredRowModel: getFilteredRowModel(),
+
+    state : {
+      pagination,
+    }
+
   });
 
   
@@ -126,6 +121,7 @@ function CategoryTable({data, session}) {
             </TableBody>
           </Table>
         </div>
+        <TablePagination table={categoryTable} setPagination={setPagination} />
       </div>
     </>
   );

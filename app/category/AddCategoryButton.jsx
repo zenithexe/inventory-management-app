@@ -1,9 +1,8 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { BookmarkPlus } from "lucide-react";
 
-'use client'
-import React, { useState } from 'react';
-import { BookmarkPlus } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -16,46 +15,64 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 function AddCategoryButton() {
+  const { toast } = useToast();
+  const router = useRouter();
+
   const [error, setError] = useState({
     error: false,
-    message:"",
-  })
+    message: "",
+  });
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(()=>{
+    setError({error:false, message:""})
+  },[open])
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     const formData = new FormData(e.target);
 
-    const categoryId = formData.get("categoryId")
-    const name = formData.get("name")
+    const categoryId = formData.get("categoryId");
+    const name = formData.get("name");
 
-    const item = {
+    const category = {
       categoryId,
       name,
-      itemCount:0,
-    }
+      itemCount: 0,
+    };
 
     try {
-      const res = await fetch('http://localhost:3000/api/items/types', {
-        method: 'POST',
-        body: JSON.stringify(item),
-      })
+      const resJson = await fetch("http://localhost:3000/api/items/types", {
+        method: "POST",
+        body: JSON.stringify(category),
+      });
 
-      const resJson = await res.json()
-      if(resJson.error) return setError({error:true, message:resJson.error})
+      const response = await resJson.json();
+      if (response.error)
+        return setError({ error: true, message: response.error });
 
-      
+      toast({
+        title: `${response.categoryId} Added`,
+        description: "Category successfully added",
+        action: <BookmarkPlus className="text-slate-700" />,
+      });
 
-    } catch(err) {
-      setError({error:true, message:err.message})
+      setOpen(false);
+      router.refresh();
+
+
+    } catch (err) {
+      setError({ error: true, message: err.message });
     }
-
-
   }
   return (
     <>
-    <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>
             <BookmarkPlus className="mr-2 h-4 w-4" /> Add Category
@@ -74,7 +91,11 @@ function AddCategoryButton() {
                 <Label htmlFor="categoryId" className="text-right">
                   Category ID
                 </Label>
-                <Input name="categoryId" id="categoryId" className="col-span-3" />
+                <Input
+                  name="categoryId"
+                  id="categoryId"
+                  className="col-span-3"
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
@@ -97,7 +118,7 @@ function AddCategoryButton() {
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }
 
-export default AddCategoryButton
+export default AddCategoryButton;

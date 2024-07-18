@@ -7,12 +7,10 @@ import { getSessionUser } from "@/lib/session";
 import { auth } from "../auth";
 import { redirect } from "next/navigation";
 
-
 export default async function UsersPage() {
-  const session = await auth()
-  if(!session) redirect('/login')
-  
-  
+  const session = await auth();
+  if (!session) redirect("/login");
+
   return (
     <>
       <div className="">
@@ -29,9 +27,15 @@ export default async function UsersPage() {
                 <UserAvatar />
               </div>
             </div>
-            
-            {session.user.isAdmin && <div className="mb-10 flex gap-2"><AddUserButton /></div>}
-            <div className="w-full"><UserTable session={session}/></div>
+
+            {session.user.isAdmin && (
+              <div className="mb-10 flex gap-2">
+                <AddUserButton />
+              </div>
+            )}
+            <div className="w-full">
+              <UserTable session={session} />
+            </div>
           </div>
         </div>
       </div>

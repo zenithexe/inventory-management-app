@@ -23,7 +23,7 @@ export default async function InventoryPage() {
   const categoryDB = await Category.find();
   const category = JSON.parse(JSON.stringify(categoryDB));
 
-  const itemsDB = await Item.find().populate("category").sort({created:-1});
+  const itemsDB = await Item.find().populate("category").sort({_id:-1});
   const items = JSON.parse(JSON.stringify(itemsDB));
 
   const data = items.map((item) => {

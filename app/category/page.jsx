@@ -12,12 +12,12 @@ export default async function CategoryPage() {
   if(!session) redirect('/login')
 
   const db = connectMongo()
-  const categoryDB = await Category.find()
+  const categoryDB = await Category.find().sort({_id:-1})
   const category = JSON.parse(JSON.stringify(categoryDB))
   
   return (
     <>
-      <div className="">
+      <div className="mb-20">
         <div className="mx-4 grid lg:grid-cols-6 grid-cols-4">
           <div className="flex flex-col lg:col-start-2 col-span-4">
             <div className="flex justify-between pt-4 mb-[50px]">

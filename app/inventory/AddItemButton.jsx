@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { CodeSquare, FolderPlus } from "lucide-react";
+import { CodeSquare, FilePlus, FolderPlus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import {
@@ -80,7 +80,7 @@ function AddItemButton({ category }) {
       })
       const body = await res.json();
     
-      console.log(body);
+    
 
       if(!res.ok){
         setError({error:true, message:body.error})
@@ -90,6 +90,7 @@ function AddItemButton({ category }) {
       toast({
         title:`${body.item.name} Added`,
         description:"Item successfully added to inventory.",
+        action: (<FilePlus className="text-slate-700"/>)
       })
 
       setDialogOpen(false)

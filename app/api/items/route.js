@@ -1,6 +1,6 @@
 import { itemZSchema } from "@/lib/zodSchema";
 import connectMongo from "@/mongodb/connect";
-import { Item } from "@/mongodb/schema";
+import { Category, Item } from "@/mongodb/schema";
 import { NextResponse } from "next/server";
 
 
@@ -42,11 +42,23 @@ export async function POST(req){
         const itemFound = await Item.findOne({itemId: itemObj.itemId})
         if(itemFound) return NextResponse.json({error:"ItemId already exist"},{status:400});
 
+        const categoryFound = await Category.findOne({_id: itemObj.category})
+        if(!categoryFound) return NextResponse.json({error:"Category Not Found"},{status:400});
+        
+        const count = categoryFound.itemCount + 1;
+
         const item = new Item(itemObj)
         console.log("Item Created :::", item)
         await item.save()
         console.log("Item Saved:::::")
 
+        const categoryCountResult = await Category.findOneAndUpdate(
+            {_id: categoryFound._id},
+            {
+                itemCount: count,
+            },
+        )
+        
         return NextResponse.json({item}, {status:200})
     }
     catch(err){

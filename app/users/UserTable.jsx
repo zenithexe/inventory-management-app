@@ -32,6 +32,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import TablePagination from "./TablePagination";
 
 const user = [
   {
@@ -54,53 +55,9 @@ const user = [
   },
 ];
 
-// const userColumns = [
-//   {
-//     header: "Username",
-//     accessorKey: "username",
-//   },
-//   {
-//     header: "Name",
-//     accessorKey: "name",
-//   },
-//   {
-//     header: "Role",
-//     accessorKey: "isAdmin",
-//     cell: (cell) => (
-//       <Badge variant="secondary">{cell.getValue() ? "Admin" : "User"}</Badge>
-//     ),
-//   },
-//   {
-//     header: "Created At",
-//     accessorKey: "created",
-//   },
-//   {
-//     id: "options",
-//     enableHiding: false,
-//     cell: () => {
-//       return (
-        
-//         <DropdownMenu>
-//           <DropdownMenuTrigger asChild>
-//             <Button variant="ghost" className="h-8 w-8 p-0">
-//               <span className="sr-only">Open menu</span>
-//               <MoreHorizontal className="h-4 w-4" />
-//             </Button>
-//           </DropdownMenuTrigger>
-//           <DropdownMenuContent>
-//             <DropdownMenuItem>View User</DropdownMenuItem>
-//             <DropdownMenuSeparator />
-//             <DropdownMenuItem>Edit User</DropdownMenuItem>
-//             <DropdownMenuItem>Delete User</DropdownMenuItem>
-//           </DropdownMenuContent>
-//         </DropdownMenu>
-//       );
-//     },
-//   },
-// ];
 
 function UserTable({session}) {
-  
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const userColumns = [
     {
       header: "Username",
@@ -151,6 +108,13 @@ function UserTable({session}) {
     columns: userColumns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+
+    state: {
+      pagination,
+    }
+
   });
 
 
@@ -199,6 +163,7 @@ function UserTable({session}) {
             </TableBody>
           </Table>
         </div>
+        <TablePagination table={userTable} setPagination={setPagination} />
       </div>
     </>
   );

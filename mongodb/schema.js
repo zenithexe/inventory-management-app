@@ -22,6 +22,7 @@ const itemSchema = mongoose.Schema({
     itemId: {
         type: String,
         required: true,
+        unique: true,
     },
     name: String,
     description: String,

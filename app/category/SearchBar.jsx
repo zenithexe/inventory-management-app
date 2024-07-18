@@ -24,6 +24,20 @@ function SearchBar({ table }) {
           }}
           className="max-w-sm w-80"
         />
+        <Select className="w-[120px]" defaultValue="name"
+          onValueChange={(value)=>setSearchColumn(value)}
+        >
+          <SelectTrigger >
+            <SelectValue placeholder=""/>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Search By</SelectLabel>
+              <SelectItem value="name">Name</SelectItem>
+              <SelectItem value="categoryId">ID</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
     </>
   );
