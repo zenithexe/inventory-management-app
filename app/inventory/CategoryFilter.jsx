@@ -19,7 +19,7 @@ function CategoryFilter({ table, filterValues, setColumnFilters }) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto">
             Category <ChevronDown className="ml-2 h-4 w-4" />
           </Button>

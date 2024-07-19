@@ -17,9 +17,9 @@ export default async function CategoryPage() {
   
   return (
     <>
-      <div className="mb-20">
-        <div className="mx-4 grid lg:grid-cols-6 grid-cols-4">
-          <div className="flex flex-col lg:col-start-2 col-span-4">
+      <div className="ml-16 mb-20">
+        <div className="w-full grid lg:grid-cols-8 grid-cols-10">
+          <div className="flex flex-col col-start-2 col-span-8 lg:col-start-2 lg:col-span-6">
             <div className="flex justify-between pt-4 mb-[50px]">
               <div>
                 <h1 className="text-[30px] font-mono font-semibold">
@@ -28,7 +28,7 @@ export default async function CategoryPage() {
                 <p className="font-mono">Add or Manage the Item Categories.</p>
               </div>
               <div className="pt-2">
-                <UserAvatar />
+                <UserAvatar session={session} />
               </div>
             </div>
             {session.user.isAdmin && <div className="mb-10 flex gap-2"> <AddCategoryButton /></div>}

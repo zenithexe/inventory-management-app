@@ -93,7 +93,7 @@ export default function EditItemDialogBox({
         return setError({ error: true, message: response.message });
 
       toast({
-        title: `${response.item.name} Updated`,
+        title: `${response.item.itemId} Updated`,
         description: "Item successfully updated",
         action: (<FilePenLine className="text-slate-700"/>)
       });

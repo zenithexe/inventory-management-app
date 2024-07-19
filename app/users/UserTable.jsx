@@ -22,41 +22,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import SearchBar from "./SearchBar";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+
+
 import TablePagination from "./TablePagination";
+import UserDropdownMenu from "./UserDropdownMenu";
 
-const user = [
-  {
-    username: "user1",
-    name: "Jalish",
-    isAdmin: true,
-    created: "12/07/2021",
-  },
-  {
-    username: "user2",
-    name: "Ricku",
-    isAdmin: false,
-    created: "12/07/2021",
-  },
-  {
-    username: "user3",
-    name: "Zen",
-    isAdmin: false,
-    created: "12/07/2021",
-  },
-];
-
-
-function UserTable({session}) {
+function UserTable({session ,data}) {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const userColumns = [
     {
@@ -70,41 +41,28 @@ function UserTable({session}) {
     {
       header: "Role",
       accessorKey: "isAdmin",
-      cell: (cell) => (
+      cell: ({cell}) => (
         <Badge variant="secondary">{cell.getValue() ? "Admin" : "User"}</Badge>
       ),
     },
     {
       header: "Created At",
       accessorKey: "created",
+      cell: ({cell}) => (cell.getValue().split('T')[0])
     },
     {
       id: "options",
       enableHiding: false,
-      cell: () => {
+      cell: ({row}) => {
         return (
-          session.user.isAdmin &&
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>View User</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Edit User</DropdownMenuItem>
-              <DropdownMenuItem>Delete User</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <UserDropdownMenu row={row} session={session}/>
         );
       },
     },
   ];
   
   const userTable = useReactTable({
-    data: user,
+    data,
     columns: userColumns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

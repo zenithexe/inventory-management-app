@@ -15,14 +15,14 @@ function SearchBar({ table }) {
   const [searchColumn,setSearchColumn] = useState("name");
   return (
     <>
-      <div className="flex gap-2">
+      <div className="flex gap-2 w-full">
         <Input
           placeholder="Search Item"
           value={table.getColumn(searchColumn).getFilterValue() ?? ""}
           onChange={(event) => {
             table.getColumn(searchColumn).setFilterValue(event.target.value);
           }}
-          className="max-w-sm w-80"
+          className="max-w-xs w-auto grow"
         />
         <Select className="w-[120px]" defaultValue="name"
           onValueChange={(value)=>setSearchColumn(value)}

@@ -28,7 +28,7 @@ import logo from "../public/assets/inventory.png";
 function NavBar() {
   return (
     <>
-      <div className="float-left fixed mr-4">
+      <div className="float-left fixed">
         <div className="flex h-screen w-16 flex-col justify-between border-e bg-white">
           <div>
             <div className="inline-flex size-16 items-center justify-center">
@@ -84,20 +84,6 @@ function NavBar() {
             </div>
           </div>
 
-          <div className="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
-            <form action="#">
-              <Link
-                href="/users"
-                className="t group relative flex justify-center rounded px-2 py-1.5 text-slate-700"
-              >
-                <LogOut className="h-4 w-4" />
-
-                <span className="z-50 invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
-                  Logout
-                </span>
-              </Link>
-            </form>
-          </div>
         </div>
       </div>
     </>

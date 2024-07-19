@@ -21,8 +21,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { register } from "@/action/users";
 import { z } from "zod";
+import { UserRoundPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 function RegisterForm() {
+  const router = useRouter();
+  const {toast} = useToast();
+  
   const [error, setError] = useState({
     error: false,
     message: "There is some error.",
@@ -88,6 +94,15 @@ function RegisterForm() {
       if (!response.success) {
         setError({ error: true, message: response.error });
       }
+
+      toast({
+        title: `Registration Successful!`,
+        description: "User successfully registered.",
+        action: <UserRoundPlus className="text-slate-700" />,
+      });
+
+      router.push('/login')
+
     } catch (e) {
       console.error("Error ::", e);
     }

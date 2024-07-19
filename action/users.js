@@ -70,3 +70,56 @@ export const logIn = async (userLogin) => {
   
   redirect('/inventory')
 };
+
+export const getUser = async(username) => {
+  try{
+    const db = await connectMongo();
+    const user = await User.findOne({username:username})
+
+    if(!user)
+      return JSON.stringify({success:false, error: "User doesn't exists."})
+    
+    return JSON.stringify({success:true, user: user})
+
+  }catch(err){
+    return JSON.stringify({success: false, error:"Internal Server Error."})
+  }
+}
+
+export const updateUser = async(user) => {
+  try{
+    const db = connectMongo()
+
+    const result = await User.findOneAndUpdate(
+      {username:user.username},
+      {
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+      {new: true}
+    )
+
+    if(!result) return {success:false, message:"Error: Can't Update"}
+
+    return JSON.stringify({success:true, user: result})
+
+  } catch(err){
+    console.log("Error ::", err);
+    return {success:false, message:"Server Error."}
+  }
+}
+
+export const deleteUser = async(username) => {
+  try{
+    const db = connectMongo();
+    const result = await User.deleteOne({username:username})
+    if(!result.acknowledged) return {success:false, message:"There is some Error"}
+
+    return JSON.stringify({success:true, result:result})
+  }catch(err){
+    console.log("Error ::",err)
+    return {success:false, message:"Server Error."}
+  }
+}
+
