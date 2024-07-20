@@ -39,7 +39,7 @@ This is a full-stack Inventory Management App Project, that is built using Next.
         npm run dev
      ```
 
-## Project Routes
+## App-Routes
 Once the server is running, you can access the application at `http://localhost:3000`.
 These are the different routes :
 - **/** : Basic Home-page. Content about the project.
@@ -50,7 +50,7 @@ These are the different routes :
 - **/login** : User Login Page
 - **/register** : User Registration Page
 
-## Role Permessions
+## App-Role Permessions
 `User Role` :
 - Add/Edit inventory items.
 - View Categories
