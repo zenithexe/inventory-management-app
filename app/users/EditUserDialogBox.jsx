@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation";
 import {  UserRoundCheck } from "lucide-react";
 import { updateUser } from "@/action/users";
 
-function EditUserDialogBox({ userData, open, onOpenChange }) {
+function EditUserDialogBox({ session, userData, open, onOpenChange }) {
   const { toast } = useToast();
   const router = useRouter();
 
@@ -34,6 +34,9 @@ function EditUserDialogBox({ userData, open, onOpenChange }) {
     setError({ error: false, message: "" });
   }, [open]);
 
+  async function profile() {
+    router.push('/profile')
+  }
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -91,10 +94,13 @@ function EditUserDialogBox({ userData, open, onOpenChange }) {
           <DialogHeader>
             <DialogTitle>Edit User</DialogTitle>
             <DialogDescription>
-              Fill in the details of the User.
+              {(session.user.username == userData.username)?"You can edit your account from Profile Page.":"Fill in the details of the User."}
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleSubmit}>
+          {(session.user.username == userData.username)?
+          (<div className="grid gap-4">
+            <Button onClick={profile}>Profile Page</Button>
+          </div>):(<><form onSubmit={handleSubmit}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
@@ -167,6 +173,7 @@ function EditUserDialogBox({ userData, open, onOpenChange }) {
               <Button type="submit">Edit Category</Button>
             </div>
           </form>
+        </>)}
         </DialogContent>
       </Dialog>
     </>

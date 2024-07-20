@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 import { signIn } from "@/app/auth";
 import { CredentialsSignin } from "next-auth";
+import { compare } from "bcrypt";
 
 export const register = async (userReg) => {
   const { name, username, email, password, isAdmin } = userReg;
@@ -100,6 +101,7 @@ export const updateUser = async(user) => {
       {new: true}
     )
 
+
     if(!result) return {success:false, message:"Error: Can't Update"}
 
     return JSON.stringify({success:true, user: result})
@@ -123,3 +125,29 @@ export const deleteUser = async(username) => {
   }
 }
 
+export const changePassword = async(body) => {
+  try{
+    const db = await connectMongo();
+
+    const user = await User.findOne({username: body.username});
+    if(!user) return JSON.stringify({success:false, message:"Server-Error: User doesn't exist."})
+
+    const passwordMatch = await compare(body.presentPassword, user.password);
+    if(!passwordMatch) return JSON.stringify({success: false, message:"Incorrect Present-Password."})
+
+    const hpassword = await hashPassword(body.newPassword)
+    const result = await User.findOneAndUpdate(
+      {username: body.username},
+      {password:hpassword},
+      {new:true}
+    )
+
+    if(!result) return JSON.stringify({success:false, message:"Server Internal Error."})
+
+    return JSON.stringify({success:true, result:result})
+
+  }catch(err){
+    console.log("Error", err)
+    return JSON.stringify({success:false, message:"Server-Side Error."})
+  }
+}

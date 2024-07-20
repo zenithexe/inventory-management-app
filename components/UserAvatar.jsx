@@ -21,15 +21,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CircleUserRound, LogOut, User } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 
-async function UserAvatar({session}) {
+function UserAvatar({session}) {
   
+  const router = useRouter()
+
   function logout() {
     signOut({
       redirect: true,
       callbackUrl: "/",
     });
+  }
+
+  function profile(){
+    router.push('/profile')
   }
 
   return (
@@ -39,9 +46,9 @@ async function UserAvatar({session}) {
           <CircleUserRound />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>{`Logged in: ${session.user.username}`}</DropdownMenuLabel>
+          <DropdownMenuLabel>Logged in: {session?.user.username}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={profile}>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>

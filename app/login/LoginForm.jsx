@@ -31,8 +31,7 @@ function LoginForm() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    console.log(event.target);
-
+    
     const formData = new FormData(event.target);
 
     const username = formData.get("username");

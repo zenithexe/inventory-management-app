@@ -30,15 +30,10 @@ export default async function UsersPage() {
                 </p>
               </div>
               <div className="pt-2">
-                <UserAvatar />
+                <UserAvatar session={session}/>
               </div>
             </div>
 
-            {/* {session.user.isAdmin && (
-              <div className="mb-10 flex gap-2">
-                <AddUserButton />
-              </div>
-            )} */}
             <div className="w-full">
               <UserTable data={users} session={session} />
             </div>

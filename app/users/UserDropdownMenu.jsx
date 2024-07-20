@@ -20,12 +20,12 @@ function UserDropdownMenu({ row, session }) {
   const [editOpen,setEditOpen] = useState(false)
   const [deleteOpen,setDeleteOpen] = useState(false)
   const [userData, setUserData] = useState({})
+
   let isMount = useRef(false);
 
   const getUserDetails = async() => {
     const userJSON = await getUser(row.getValue('username'))
     const user = JSON.parse(userJSON)
-    console.log(user)
     setUserData(user.user)
   }
 
@@ -40,7 +40,7 @@ function UserDropdownMenu({ row, session }) {
 
   return (
     <>
-      {session.user.isAdmin && (
+      {session.user.isAdmin &&  (
         <>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -54,7 +54,7 @@ function UserDropdownMenu({ row, session }) {
             <DropdownMenuItem onClick={()=>setDeleteOpen(true)}>Delete User</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <EditUserDialogBox userData={userData} open={editOpen} onOpenChange={setEditOpen} />
+        <EditUserDialogBox session={session} userData={userData} open={editOpen} onOpenChange={setEditOpen} />
         <DeleteUserAlert session={session} userData={userData} open={deleteOpen} onOpenChange={setDeleteOpen} />
         </>
       )}
