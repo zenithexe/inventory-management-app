@@ -24,21 +24,20 @@ This is a full-stack Inventory Management App Project, that is built using Next.
     ```bash
     npm install
     ```
-
 4. Set up the environment variables. Create a `.env` file in the root directory and add the necessary variables:
     ```plaintext
     DATABASE_URL='your_database_url'
     JWT_SECRET='your_jwt_secret'
     ```
 5. Integrate your MongoDB Database with the project.
-```
-just google it man :)
-```
+    ```
+    just google it man :)
+    ```
 
 6. Start the development server :
- ```bash
-    npm run dev
- ```
+     ```bash
+        npm run dev
+     ```
 
 ## Project Routes
 Once the server is running, you can access the application at `http://localhost:3000`.
