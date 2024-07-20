@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Inventory Management App 💼
+This is a full-stack Inventory Management App Project, that is built using Next.js and MongoDB (Mongoose).
 
-## Getting Started
+## Features
+- **User Authentication**: Secure login and registration.
+- **User Authorization**: Role-based Authorization. There are mainly two roles, `user` and `admin`.
+- **Product Management**: Add, edit, and delete products.
+- **Category Management** : Manage product categories.
+- **User Management** : Admin are able to manage othe users.
+- **Search and Filter** : Easily find products with advanced search, filter, sort options.
 
-First, run the development server:
+## Installation
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/zenithexe/inventory-management-app.git
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+2. Navigate to the project directory:
+    ```bash
+    cd inventory-management-app
+    ```
+
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
+
+4. Set up the environment variables. Create a `.env` file in the root directory and add the necessary variables:
+    ```plaintext
+    DATABASE_URL='your_database_url'
+    JWT_SECRET='your_jwt_secret'
+    ```
+5. Integrate your MongoDB Database with the project.
+```
+just google it man :)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Start the development server :
+ ```bash
+    npm run dev
+ ```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Project Routes
+Once the server is running, you can access the application at `http://localhost:3000`.
+These are the different routes :
+- **/** : Basic Home-page. Content about the project.
+- **/profile** : Manage your account. 
+- **/inventory** : Advance view of your inventory.
+- **/category** :  Advance view to manage the `item-category`.
+- **/users** : Advance view to manage `users`. Admins are only able to manage other users.
+- **/login** : User Login Page
+- **/register** : User Registration Page
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Role Permessions
+`User Role` :
+- Add/Edit inventory items.
+- View Categories
+- View other users. Edit their own profile.
 
-## Learn More
+`Admin Role` :
+- Add/Edit/Delete inventory items.
+- Add/Edit/Delete Category
+- Edit/Delete/Promote/Demote other users.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Dependencies
+These are the library used in the project.
+- `shadcnn` : UI Library
+- `Tanstack React Tables` : Headless React UI library to create complete Table UI.
+- `NextAuth (Auth.js)` : User Authentication and Session Control
