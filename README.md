@@ -26,8 +26,9 @@ This is a full-stack Inventory Management App Project, that is built using Next.
     ```
 4. Set up the environment variables. Create a `.env` file in the root directory and add the necessary variables:
     ```plaintext
-    DATABASE_URL='your_database_url'
-    JWT_SECRET='your_jwt_secret'
+    DB_URL="your_database_url"
+    NEXTAUTH_SECRET="Generate_your_own_secret_key"
+    NEXTAUTH_URL="http://localhost:3000/"
     ```
 5. Integrate your MongoDB Database with the project.
     ```
