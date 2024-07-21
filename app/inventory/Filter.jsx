@@ -28,9 +28,6 @@ function Filter({ table, columnFilters, setColumnFilters }) {
     setQuantity({ min: qMin, max: qMax });
     setPrice({ min: pMin, max: pMax });
 
-    // table.getColumn("quantity").setFilterValue([quantity.min, quantity.max]);
-    // table.getColumn("price").setFilterValue([price.min, price.max]);
-
     table.getColumn("quantity").setFilterValue([qMin, qMax]);
     table.getColumn("price").setFilterValue([pMin, pMax]);
   }

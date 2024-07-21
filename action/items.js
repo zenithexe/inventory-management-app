@@ -1,7 +1,55 @@
 "use server";
 
+import { itemZSchema } from "@/lib/zodSchema";
 import connectMongo from "@/mongodb/connect";
-import { Item } from "@/mongodb/schema";
+import { Category, Item } from "@/mongodb/schema";
+
+export const addItem = async (itemReq) => {
+  const item = {
+    itemId: itemReq.itemId,
+    name: itemReq.name,
+    description: itemReq.description,
+    quantity: parseInt(itemReq.quantity),
+    price: parseInt(itemReq.price),
+    category: itemReq.category,
+  };
+
+  const zodV = itemZSchema.safeParse(item);
+  if (zodV.success == false)
+    return JSON.stringify({ success: false, message: "Bad Request Body" });
+  try {
+    const itemFound = await Item.findOne({ itemId: item.itemId });
+    if (itemFound)
+      return JSON.stringify({
+        success: false,
+        message: "Item ID already exists.",
+      });
+
+    const categoryFound = await Category.findOne({ _id: item.category });
+    if (!categoryFound)
+      return JSON.stringify({
+        success: false,
+        message: "Category doesn't exists.",
+      });
+
+    const categoryItemCount = categoryFound.itemCount + 1;
+
+    const itemDB = new Item(item);
+    await itemDB.save();
+
+    const categoryUpdateResult = await Category.findOneAndUpdate(
+      { _id: categoryFound._id },
+      {
+        itemCount: categoryItemCount,
+      }
+    );
+
+    return JSON.stringify({ success: true, item: item });
+  } catch (err) {
+    console.log("Error ::", err);
+    return JSON.stringify({ success: false, message: "Server-side Error." });
+  }
+};
 
 export const getItem = async (itemId) => {
   try {
@@ -33,31 +81,28 @@ export const updateItem = async (item) => {
         quantity: item.quantity,
         price: item.price,
       },
-      {new: true}
+      { new: true }
     );
 
-    if(!result) return {success:false, message:"Error: Can't Update."}
+    if (!result) return { success: false, message: "Error: Can't Update." };
 
-    return JSON.stringify({success:true, item: result})
-    
+    return JSON.stringify({ success: true, item: result });
   } catch (err) {
     console.log("Error ::", err);
-    return {success:false, message: "Server Error."}
+    return { success: false, message: "Server Error." };
   }
 };
 
 export const deleteItem = async (itemId) => {
-  try{
+  try {
     const db = connectMongo();
-    const result = await Item.deleteOne({itemId:itemId})
-    if(!result.acknowledged) return {success:false, message:"There is some Error"}
+    const result = await Item.deleteOne({ itemId: itemId });
+    if (!result.acknowledged)
+      return { success: false, message: "There is some Error" };
 
-    
-    return JSON.stringify({success:true, result:result})
-
-  }catch(err){
-    console.log("Error ::", err)
-    return {success:false, message:"Server Error."}
+    return JSON.stringify({ success: true, result: result });
+  } catch (err) {
+    console.log("Error ::", err);
+    return { success: false, message: "Server Error." };
   }
-  
-}
+};

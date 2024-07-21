@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { addItem } from "@/action/items";
 
 
 function AddItemButton({ category }) {
@@ -74,21 +75,22 @@ function AddItemButton({ category }) {
 
 
     try {
-      const res = await fetch('http://localhost:3000/api/items', {
-        method: 'POST',
-        body: JSON.stringify(item),
-      })
-      const body = await res.json();
+      // const res = await fetch('http://localhost:3000/api/items', {
+      //   method: 'POST',
+      //   body: JSON.stringify(item),
+      // })
+      // const body = await res.json();
     
-    
+      const resJSON = await addItem(item);
+      const response = JSON.parse(resJSON)
 
-      if(!res.ok){
-        setError({error:true, message:body.error})
+      if(!response.success){
+        setError({error:true, message:response.message})
         return
       }
 
       toast({
-        title:`${body.item.name} Added`,
+        title:`${response.item.name} Added`,
         description:"Item successfully added to inventory.",
         action: (<FilePlus className="text-slate-700"/>)
       })

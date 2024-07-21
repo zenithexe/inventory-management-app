@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { BookmarkPlus } from "lucide-react";
 
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,8 +18,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { addCategory } from "@/action/category";
 
 function AddCategoryButton() {
+  
   const { toast } = useToast();
   const router = useRouter();
 
@@ -47,17 +50,14 @@ function AddCategoryButton() {
     };
 
     try {
-      const resJson = await fetch("http://localhost:3000/api/items/types", {
-        method: "POST",
-        body: JSON.stringify(category),
-      });
-
-      const response = await resJson.json();
-      if (response.error)
-        return setError({ error: true, message: response.error });
+      
+      const resJSON = await addCategory(category)
+      const response = JSON.parse(resJSON)
+      if (!response.success)
+        return setError({ error: true, message: response.message });
 
       toast({
-        title: `${response.categoryId} Added`,
+        title: `${response.category.categoryId} Added`,
         description: "Category successfully added",
         action: <BookmarkPlus className="text-slate-700" />,
       });
