@@ -22,8 +22,8 @@ import { Button } from "@/components/ui/button";
 import { updateItem } from "@/action/items";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import {  FilePenLine } from "lucide-react";
-
+import { FilePenLine } from "lucide-react";
+import LoadingCircle from "@/components/LoadingCircle";
 
 export default function EditItemDialogBox({
   itemData,
@@ -31,19 +31,27 @@ export default function EditItemDialogBox({
   open,
   onOpenChange,
 }) {
-  
   const { toast } = useToast();
   const router = useRouter();
-  
 
   const [error, setError] = useState({ error: false, message: "" });
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setError({ error: false, message: "" });
+    if(!open){
+      setLoading(false)
+    }
+  }, [open]);
 
   useEffect(()=>{
-    setError({error:false, message:""})
-  },[open])
-
+    if(error.error){
+      setLoading(false)
+    }
+  },[error])
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true)
 
     const formData = new FormData(e.target);
 
@@ -60,7 +68,8 @@ export default function EditItemDialogBox({
       description == itemData.item.description &&
       quantity == itemData.item.quantity &&
       price == itemData.item.price
-    ) return setError({error:true, message:"No Change Applied"})
+    )
+      return setError({ error: true, message: "No Change Applied" });
 
     if (!itemId) return setError({ error: true, message: "Item ID required." });
     if (!name) return setError({ error: true, message: "Item name required." });
@@ -83,26 +92,25 @@ export default function EditItemDialogBox({
       created: itemData.item.created,
     };
 
-    
-
     try {
       const res = await updateItem(item);
-      const response = JSON.parse(res)
-      
+      const response = JSON.parse(res);
+
       if (!response.success)
         return setError({ error: true, message: response.message });
 
       toast({
         title: `${response.item.itemId} Updated`,
         description: "Item successfully updated",
-        action: (<FilePenLine className="text-slate-700"/>)
+        action: <FilePenLine className="text-slate-700" />,
       });
 
+      setLoading(false)
       onOpenChange(false);
       router.refresh();
-
     } catch (err) {
-      setError({ error: true, message: "There is some error." });
+      console.log("Error ::", err)
+      setError({ error: true, message: "Client-side Error." });
     }
   }
 
@@ -145,21 +153,23 @@ export default function EditItemDialogBox({
                 <Label htmlFor="description" className="text-right">
                   Category
                 </Label>
-                <Select
-                  name="category"
-                  defaultValue={itemData.item?.category?._id}
-                >
-                  <SelectTrigger id="category-select">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    {categoryList.map((item) => (
-                      <SelectItem key={item.categoryId} value={item._id}>
-                        {item.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="col-span-3">
+                  <Select
+                    name="category"
+                    defaultValue={itemData.item?.category?._id}
+                  >
+                    <SelectTrigger id="category-select">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      {categoryList.map((item) => (
+                        <SelectItem key={item.categoryId} value={item._id}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="description" className="text-right">
@@ -205,8 +215,14 @@ export default function EditItemDialogBox({
               )}
             </div>
             <div className="flex justify-end gap-2">
-              <Button type="reset" variant="secondary" onClick={(e)=> onOpenChange(false)}>Cancel</Button>
-              <Button type="submit">Edit Item</Button>
+              <Button
+                type="reset"
+                variant="secondary"
+                onClick={(e) => onOpenChange(false)}
+              >
+                Cancel
+              </Button>
+              <Button type="submit"><LoadingCircle visible={loading}/>Edit Item</Button>
             </div>
           </form>
         </DialogContent>

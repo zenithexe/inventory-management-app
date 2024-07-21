@@ -1,18 +1,8 @@
 'use client';
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
+
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuItem,
   DropdownMenuContent,
   DropdownMenuLabel,
@@ -42,17 +32,17 @@ function UserAvatar({session}) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
           <CircleUserRound />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Logged in: {session?.user.username}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={profile}>
+          <DropdownMenuItem  onClick={profile}>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={logout}>
+          <DropdownMenuItem  onClick={logout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Logout</span>
           </DropdownMenuItem>

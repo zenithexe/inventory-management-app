@@ -1,8 +1,11 @@
+import LoadingPage from '@/components/LoadingPage'
 import React from 'react'
 
 function InventoryLoading() {
   return (
-    <div>InventoryLoading</div>
+    <>
+    <LoadingPage/>
+  </>
   )
 }
 

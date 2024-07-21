@@ -27,7 +27,7 @@ function DeleteCategoryAlert({ categoryData, open, onOpenChange }) {
         variant: "destructive",
         title: `Delete Failed`,
         description: `Item Count must be zero.`,
-        action: <CircleAlert className="text-slate-700" />,
+        action: <CircleAlert className="text-white" />,
       });
       return;
     }
@@ -41,7 +41,7 @@ function DeleteCategoryAlert({ categoryData, open, onOpenChange }) {
           variant: "destructive",
           title: `Delete Failed`,
           description: `${response.message}`,
-          action: <CircleAlert className="text-slate-700" />,
+          action: <CircleAlert className="text-white" />,
         });
         return;
       }
@@ -60,7 +60,7 @@ function DeleteCategoryAlert({ categoryData, open, onOpenChange }) {
             variant: "destructive",
             title: `Delete Failed`,
             description: `There is some Error.`,
-            action: <CircleAlert className="text-slate-700" />,
+            action: <CircleAlert className="text-white" />,
           });
     }
   }

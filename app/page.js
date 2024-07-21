@@ -15,10 +15,10 @@ export default function HomePage() {
         <h1 className="text-[30px] text-center font-mono font-semibold">
           Inventory Management Project
         </h1>
-        <p className="font-mono text-center">
+        <div className="font-mono text-center">
           This is a full-stack inventory management project,
           <br/> made using <Badge variant="secondary">Nextjs</Badge> and <Badge variant="secondary">MongoDB</Badge>
-        </p>
+        </div>
         <Link href="/login">
           <Button className="my-10 " variant="outline">
             Get Started

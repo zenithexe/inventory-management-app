@@ -3,6 +3,7 @@
 import { itemZSchema } from "@/lib/zodSchema";
 import connectMongo from "@/mongodb/connect";
 import { Category, Item } from "@/mongodb/schema";
+import { Cat } from "lucide-react";
 
 export const addItem = async (itemReq) => {
   const item = {
@@ -96,11 +97,29 @@ export const updateItem = async (item) => {
 export const deleteItem = async (itemId) => {
   try {
     const db = connectMongo();
+    const item = await Item.findOne({itemId:itemId})
+    
+
+    if(!item) return {success:false, message:"Item doesn't exist."}
+
     const result = await Item.deleteOne({ itemId: itemId });
     if (!result.acknowledged)
       return { success: false, message: "There is some Error" };
 
+    const categoryFound = await Category.findOne({_id: item.category})
+     
+
+    const categoryItemCount = categoryFound.itemCount - 1;
+
+    const categoryUpdateResult = await Category.findOneAndUpdate(
+      {_id: categoryFound._id},
+      {
+        itemCount: categoryItemCount,
+      }
+    );
+
     return JSON.stringify({ success: true, result: result });
+
   } catch (err) {
     console.log("Error ::", err);
     return { success: false, message: "Server Error." };

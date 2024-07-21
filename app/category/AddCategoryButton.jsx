@@ -19,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { addCategory } from "@/action/category";
+import LoadingCircle from "@/components/LoadingCircle";
 
 function AddCategoryButton() {
   
@@ -29,17 +30,28 @@ function AddCategoryButton() {
     error: false,
     message: "",
   });
-
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     setError({error:false, message:""})
+    if(!open){
+      setLoading(false)
+    }
   },[open])
+
+  useEffect(()=>{
+    if(error.error){
+      setLoading(false)
+    }
+  },[error])
+
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    setLoading(true)
 
+    const formData = new FormData(e.target);
     const categoryId = formData.get("categoryId");
     const name = formData.get("name");
 
@@ -62,12 +74,13 @@ function AddCategoryButton() {
         action: <BookmarkPlus className="text-slate-700" />,
       });
 
+      setLoading(false)
       setOpen(false);
       router.refresh();
 
-
     } catch (err) {
-      setError({ error: true, message: err.message });
+      console.log("Error ::", err)
+      setError({ error: true, message: "Client-side Error." });
     }
   }
   return (
@@ -112,7 +125,7 @@ function AddCategoryButton() {
               )}
             </div>
             <div className="flex justify-end">
-              <Button type="submit">Add Category</Button>
+              <Button type="submit"><LoadingCircle visible={loading}/>Add Category</Button>
             </div>
           </form>
         </DialogContent>

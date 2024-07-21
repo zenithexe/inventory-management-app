@@ -6,7 +6,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,19 +14,32 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { updateCategory } from "@/action/category";
 import { BookmarkCheck } from "lucide-react";
+import LoadingCircle from "@/components/LoadingCircle";
 
 function EditCategoryDialogBox({ categoryData, open, onOpenChange }) {
   const { toast } = useToast();
   const router = useRouter();
 
   const [error, setError] = useState({ error: false, message: "" });
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setError({ error: false, message: "" });
+    if(!open){
+      setLoading(false)
+    }
   }, [open]);
+
+  useEffect(()=>{
+    if(error.error){
+      setLoading(false)
+    }
+  },[error])
 
   async function handleSubmit(e) {
     e.preventDefault();
+    
+    setLoading(true)
 
     const formData = new FormData(e.target);
 
@@ -58,9 +70,13 @@ function EditCategoryDialogBox({ categoryData, open, onOpenChange }) {
         action: <BookmarkCheck className="text-slate-700" />,
       });
 
+      setLoading(false)
       onOpenChange(false);
       router.refresh();
-    } catch (err) {}
+    } catch (err) {
+      console.log("Error ::", err)
+      setError({ error: true, message: "Client-side Error." });
+    }
   }
   return (
     <>
@@ -107,7 +123,7 @@ function EditCategoryDialogBox({ categoryData, open, onOpenChange }) {
             </div>
             <div className="flex gap-2 justify-end">
               <Button type="reset" variant="secondary" onClick={()=>onOpenChange(false)}> Cancel</Button>
-              <Button type="submit">Edit Category</Button>
+              <Button type="submit"><LoadingCircle visible={loading}/> Edit Category</Button>
             </div>
           </form>
         </DialogContent>

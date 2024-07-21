@@ -30,7 +30,7 @@ function DeleteUserAlert({ session, userData, open, onOpenChange }) {
           variant: "destructive",
           title: `Delete Failed`,
           description: `${response.message}`,
-          action: <CircleAlert className="text-slate-700" />,
+          action: <CircleAlert className="text-white" />,
         });
         return;
       }
@@ -55,12 +55,11 @@ function DeleteUserAlert({ session, userData, open, onOpenChange }) {
         variant: "destructive",
         title: `Delete Failed`,
         description: `There is some error.`,
-        action: <CircleAlert className="text-slate-700" />,
+        action: <CircleAlert className="text-white" />,
       });
     }
-
-    
   }
+  
   return (
     <>
       <AlertDialog open={open} onOpenChange={onOpenChange}>

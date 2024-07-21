@@ -1,4 +1,5 @@
 import { deleteItem } from "@/action/items";
+import LoadingCircle from "@/components/LoadingCircle";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,13 +15,22 @@ import { useToast } from "@/components/ui/use-toast";
 import { CircleAlert, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 function DeleteItemAlert({ itemData, open, onOpenChange }) {
   const { toast } = useToast();
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false)
+
+  useEffect(()=>{
+    if(!open){
+      setLoading(false)
+    }
+  },[open])
+
   async function handleDelete() {
+    setLoading(true)
     try {
       const resJson = await deleteItem(itemData.item.itemId);
       const response = JSON.parse(resJson);
@@ -29,7 +39,7 @@ function DeleteItemAlert({ itemData, open, onOpenChange }) {
           variant: "destructive",
           title: `Delete Failed`,
           description: `${response.message}`,
-          action: <CircleAlert className="text-slate-700" />,
+          action: <CircleAlert className="text-white" />,
         });
         return;
       }
@@ -40,13 +50,14 @@ function DeleteItemAlert({ itemData, open, onOpenChange }) {
         action: <Trash2 className="text-slate-700" />,
       });
 
+      setLoading(false)
       router.refresh();
     } catch (err) {
       toast({
         variant: "destructive",
         title: `Delete Failed`,
         description: `There is some error.`,
-        action: <CircleAlert className="text-slate-700" />,
+        action: <CircleAlert className="text-white" />,
       });
     }
   }
@@ -64,7 +75,7 @@ function DeleteItemAlert({ itemData, open, onOpenChange }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+            <AlertDialogAction onClick={handleDelete}><LoadingCircle visible={loading}/> Delete</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
