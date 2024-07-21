@@ -53,6 +53,7 @@ function DeleteItemAlert({ itemData, open, onOpenChange }) {
       setLoading(false)
       router.refresh();
     } catch (err) {
+      console.log("Error ::",err)
       toast({
         variant: "destructive",
         title: `Delete Failed`,
