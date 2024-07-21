@@ -28,7 +28,7 @@ Deployment : https://inventory-management-app-ruby.vercel.app/
     ```
 4. Set up the environment variables. Create a `.env` file in the root directory and add the necessary variables:
     ```plaintext
-    DB_URL="your_database_url"
+    MONGODB_URI="your_database_url"
     NEXTAUTH_SECRET="Generate_your_own_secret_key"
     NEXTAUTH_URL="http://localhost:3000/"
     ```
