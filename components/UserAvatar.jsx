@@ -33,7 +33,7 @@ function UserAvatar({session}) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <CircleUserRound />
+          <CircleUserRound className="cursor-pointer"/>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Logged in: {session?.user.username}</DropdownMenuLabel>

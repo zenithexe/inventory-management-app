@@ -7,6 +7,7 @@ import { changePassword } from "@/action/users";
 import { UserRoundCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import LoadingCircle from "@/components/LoadingCircle";
 
 function ChangePasswordForm({ session }) {
   const { toast } = useToast();
@@ -14,15 +15,24 @@ function ChangePasswordForm({ session }) {
 
   const [error, setError] = useState({ error: false, message: "" });
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     if(success==true){
         setError({error:false, message:""})
+        setLoading(false)
     }
   },[success])
 
+  useEffect(()=>{
+    if(error.error){
+      setLoading(false)
+    }
+  },[error])
+
   async function handleSubmit(e) {
     e.preventDefault()
+    setLoading(true)
 
     const formData = new FormData(e.target);
 
@@ -100,7 +110,7 @@ function ChangePasswordForm({ session }) {
           )}
         </div>
         <div className="flex gap-2 justify-end">
-          <Button type="submit">Change Password</Button>
+          <Button type="submit"><LoadingCircle visible={loading}/>Change Password</Button>
         </div>
       </form>
     </>

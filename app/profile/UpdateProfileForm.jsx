@@ -8,6 +8,7 @@ import { UserRoundCheck } from "lucide-react";
 import { updateUser } from "@/action/users";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import LoadingCircle from "@/components/LoadingCircle";
 
 function UpdateProfileForm({ session }) {
   const { toast } = useToast();
@@ -17,15 +18,24 @@ function UpdateProfileForm({ session }) {
   
   const [error, setError] = useState({ error: false, message: "" });
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
     if(success==true){
         setError({error:false, message:""})
+        setLoading(false)
     }
   },[success])
 
+  useEffect(()=>{
+    if(error.error){
+      setLoading(false)
+    }
+  },[error])
+
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true)
 
     const formData = new FormData(e.target);
 
@@ -64,14 +74,14 @@ function UpdateProfileForm({ session }) {
       })
 
       toast({
-        title: `${response.user.username} Updated`,
+        title: `Account Updated. `,
         description: "User successfully updated",
         action: <UserRoundCheck className="text-slate-700" />,
       });
 
       setSuccess(true)
 
-      router.refresh();
+  
     } catch (err) {
       console.log("Error ::", err);
       setError({ error: true, message: "There is some error." });
@@ -126,7 +136,7 @@ function UpdateProfileForm({ session }) {
           )}
         </div>
         <div className="flex gap-2 justify-end">
-          <Button type="submit">Update Details</Button>
+          <Button type="submit"><LoadingCircle visible={loading}/> Update Details</Button>
         </div>
       </form>
     </>
