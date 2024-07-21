@@ -61,7 +61,7 @@ export const getItem = async (itemId) => {
         JSON.stringify({ success: false, error: "Item ID doesn't exists." })
       );
 
-    return JSON.parse(JSON.stringify({ success: true, item: item }));
+    return JSON.stringify({ success: true, item: item });
   } catch (err) {
     return JSON.parse(
       JSON.stringify({ success: false, error: "Internal Server Error." })
