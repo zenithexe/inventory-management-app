@@ -1,6 +1,8 @@
 # Inventory Management App 💼
 This is a full-stack Inventory Management App Project, that is built using Next.js and MongoDB (Mongoose).
 
+Deployment : https://inventory-management-app-ruby.vercel.app/
+
 ## Features
 - **User Authentication**: Secure login and registration.
 - **User Authorization**: Role-based Authorization. There are mainly two roles, `user` and `admin`.
