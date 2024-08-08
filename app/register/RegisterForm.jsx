@@ -24,6 +24,7 @@ import { z } from "zod";
 import { UserRoundPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import LoadingCircle from "@/components/LoadingCircle";
 
 function RegisterForm() {
   const router = useRouter();
@@ -104,15 +105,16 @@ function RegisterForm() {
         description: "User successfully registered.",
         action: <UserRoundPlus className="text-slate-700" />,
       });
-
+      setLoading(false);
       router.push('/login')
 
     } catch (e) {
       console.error("Error ::", e);
       setError({ error: true, message: "Error:: Registration Failed." });
+      setLoading(false);
     }
 
-    setLoading(false);
+    
   }
 
   return (

@@ -35,11 +35,13 @@ function LoginForm() {
 
     try {
       const res = await logIn({ username, password });
+      setLoading(false);
     } catch (e) {
       console.error(e.message);
       setError({ error: true, message: "Login Failed." });
+      setLoading(false);
     }
-    setLoading(false);
+    
   }
 
   return (
