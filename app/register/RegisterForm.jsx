@@ -93,6 +93,7 @@ function RegisterForm() {
 
       if (!response.success) {
         setError({ error: true, message: response.error });
+        return;
       }
 
       toast({
@@ -105,6 +106,7 @@ function RegisterForm() {
 
     } catch (e) {
       console.error("Error ::", e);
+      setError({ error: true, message: "Error:: Registration Failed." });
     }
   }
 

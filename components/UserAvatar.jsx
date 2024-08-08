@@ -19,10 +19,7 @@ function UserAvatar({session}) {
   const router = useRouter()
 
   function logout() {
-    signOut({
-      redirect: true,
-      callbackUrl: "/",
-    });
+    router.push('/logout')
   }
 
   function profile(){

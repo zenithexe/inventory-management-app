@@ -56,6 +56,8 @@ function UpdateProfileForm({ session }) {
       isAdmin,
     };
 
+    if (session.user.username==="sample") return setError({error: true, message:"The submission is accepted, but you can't change a Sample Account Data. The change will not be applied."})
+
     try {
       const resJSON = await updateUser(user);
       const response = JSON.parse(resJSON);

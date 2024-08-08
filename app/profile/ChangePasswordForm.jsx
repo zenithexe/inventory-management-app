@@ -52,6 +52,8 @@ function ChangePasswordForm({ session }) {
       newPassword: newPass,
     };
 
+    if (session.user.username==="sample") return setError({error: true, message:"You cannot change Sample Account's Password."})
+
     try {
       const resJSON = await changePassword(body);
       const response = JSON.parse(resJSON);
