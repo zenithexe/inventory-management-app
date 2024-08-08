@@ -16,16 +16,18 @@ import { Terminal } from "lucide-react";
 import Link from "next/link";
 import { logIn } from "@/action/users";
 import { useState } from "react";
+import LoadingCircle from "@/components/LoadingCircle";
 
 function LoginForm() {
   const [error, setError] = useState({
     error: false,
     message: "There is some error.",
   });
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
-
+    setLoading(true);
     const formData = new FormData(event.target);
 
     const username = formData.get("username");
@@ -37,6 +39,7 @@ function LoginForm() {
       console.error(e.message);
       setError({ error: true, message: "Login Failed." });
     }
+    setLoading(false);
   }
 
   return (
@@ -75,7 +78,7 @@ function LoginForm() {
                   </p>
                 )}
               </div>
-              <Button className="mt-6 w-full">Log In</Button>
+              <Button className="mt-6 w-full"><LoadingCircle visible={loading}/> Log In</Button>
             </form>
           </CardContent>
           

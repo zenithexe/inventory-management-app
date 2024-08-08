@@ -34,8 +34,11 @@ function RegisterForm() {
     message: "There is some error.",
   });
 
+  const  [loading, setLoading] = useState(false);
+
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
     const formData = new FormData(e.target);
     const name = formData.get("name");
@@ -108,6 +111,8 @@ function RegisterForm() {
       console.error("Error ::", e);
       setError({ error: true, message: "Error:: Registration Failed." });
     }
+
+    setLoading(false);
   }
 
   return (
@@ -174,7 +179,7 @@ function RegisterForm() {
                 </p>
               )}
             </div>
-            <Button className="mt-6 w-full">Register</Button>
+            <Button className="mt-6 w-full"> <LoadingCircle visible={loading}/> Register</Button>
           </form>
         </CardContent>
       </Card>
