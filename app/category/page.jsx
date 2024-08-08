@@ -17,7 +17,7 @@ export default async function CategoryPage() {
   
   return (
     <>
-      <div className="ml-16 mb-20">
+      <div className="mb-20 lg:mt-20">
         <div className="w-full grid lg:grid-cols-8 grid-cols-10">
           <div className="flex flex-col col-start-2 col-span-8 lg:col-start-2 lg:col-span-6">
             <div className="flex justify-between pt-4 mb-[50px]">

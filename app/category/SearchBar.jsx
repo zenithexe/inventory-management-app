@@ -17,12 +17,12 @@ function SearchBar({ table }) {
     <>
       <div className="flex gap-2">
         <Input
-          placeholder="Search Item"
+          placeholder="Search Category"
           value={table.getColumn(searchColumn).getFilterValue() ?? ""}
           onChange={(event) => {
             table.getColumn(searchColumn).setFilterValue(event.target.value);
           }}
-          className="max-w-sm w-80"
+          className="max-w-sm w-auto grow"
         />
         <Select className="w-[120px]" defaultValue="name"
           onValueChange={(value)=>setSearchColumn(value)}

@@ -17,7 +17,7 @@ function SearchBar({ table }) {
     <>
       <div className="flex gap-2 w-full">
         <Input
-          placeholder="Search Item"
+          placeholder="Search User"
           value={table.getColumn(searchColumn).getFilterValue() ?? ""}
           onChange={(event) => {
             table.getColumn(searchColumn).setFilterValue(event.target.value);

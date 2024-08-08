@@ -9,7 +9,7 @@ import {
 
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, FilterIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 function Filter({ table, columnFilters, setColumnFilters }) {
@@ -36,8 +36,10 @@ function Filter({ table, columnFilters, setColumnFilters }) {
     <>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline">
-            Filter <ChevronDown className="ml-2 h-4 w-4" />
+          <Button variant="outline" className="w-auto">
+            <FilterIcon className="mr-2 h-4 w-4 md:hidden" />
+            <span className="hidden md:inline">Filter</span>
+            <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-80">

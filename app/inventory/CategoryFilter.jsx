@@ -11,17 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown, ListChecks, MoreHorizontal } from "lucide-react";
 
 function CategoryFilter({ table, filterValues, setColumnFilters }) {
   const [showAll, setShowAll] = useState(true);
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu >
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="ml-auto">
-            Category <ChevronDown className="ml-2 h-4 w-4" />
+          <Button variant="outline" className="w-auto">
+            <ListChecks className="mr-2 h-4 w-4 md:hidden"/>
+            <span className="hidden md:inline">Category</span> 
+            <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>

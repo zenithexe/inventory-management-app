@@ -10,7 +10,7 @@ export default async function LoginPage() {
 
   return (
     <>
-      <div className="h-screen w-screen bg-slate-50">
+      <div className="h-screen w-screen bg-slate-50 lg:top-0 lg:absolute lg:-z-10">
         <div className="h-screen flex justify-center items-center">
           <LoginForm />
         </div>

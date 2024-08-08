@@ -28,14 +28,14 @@ import LoadingCircle from "@/components/LoadingCircle";
 
 function RegisterForm() {
   const router = useRouter();
-  const {toast} = useToast();
-  
+  const { toast } = useToast();
+
   const [error, setError] = useState({
     error: false,
     message: "There is some error.",
   });
 
-  const  [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -106,15 +106,12 @@ function RegisterForm() {
         action: <UserRoundPlus className="text-slate-700" />,
       });
       setLoading(false);
-      router.push('/login')
-
+      router.push("/login");
     } catch (e) {
       console.error("Error ::", e);
       setError({ error: true, message: "Error:: Registration Failed." });
       setLoading(false);
     }
-
-    
   }
 
   return (
@@ -132,12 +129,12 @@ function RegisterForm() {
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <p className="font-mono">Name</p>
-                <Input name="name" id="name" placeholder="Name" />
-              </div>
-              <div className="flex flex-col space-y-1.5">
                 <p className="font-mono">Username</p>
                 <Input name="username" id="username" placeholder="Username" />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <p className="font-mono">Name</p>
+                <Input name="name" id="name" placeholder="Name" />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <p className="font-mono">Email</p>
@@ -181,7 +178,10 @@ function RegisterForm() {
                 </p>
               )}
             </div>
-            <Button className="mt-6 w-full"> <LoadingCircle visible={loading}/> Register</Button>
+            <Button className="mt-6 w-full">
+              {" "}
+              <LoadingCircle visible={loading} /> Register
+            </Button>
           </form>
         </CardContent>
       </Card>

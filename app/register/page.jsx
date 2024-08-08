@@ -19,7 +19,7 @@ export default async function RegisterPage() {
 
   return (
     <>
-      <div className="h-screen w-screen bg-slate-50">
+      <div className="h-screen w-screen bg-slate-50 lg:top-0 lg:absolute lg:-z-10">
         <div className="h-screen flex flex-col justify-center items-center gap-4  md:flex-row">
           <RegisterForm />
           <div className="w-[300px]  gap-4 font-mono hidden md:grid   ">

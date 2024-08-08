@@ -85,9 +85,10 @@ export default function DataTable({ data, category, categoryFilters, session }) 
         <AddItemButton category={category} />
       </div>
       <div className="w-auto flex flex-col gap-2">
-        <div className="flex justify-between gap-1">
+        <div className="flex flex-col md:flex-row justify-between gap-2">
           <SearchBar table={table} />
-          <div className="flex gap-2">
+
+          <div className="flex justify-start gap-2">
             <Filter
               table={table}
               columnFilters={columnFilters}
@@ -100,6 +101,7 @@ export default function DataTable({ data, category, categoryFilters, session }) 
             />
             <ColumnVisibility table={table} />
           </div>
+
         </div>
         <MainTable table={table} />
         <TablePagination table={table} setPagination={setPagination} />
