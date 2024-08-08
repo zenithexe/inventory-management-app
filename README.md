@@ -1,6 +1,8 @@
 # Inventory Management App 💼
 This is a full-stack Inventory Management App Project, that is built using Next.js and MongoDB (Mongoose).
 
+Deployment : https://inventory-management-app-ruby.vercel.app/
+
 ## Features
 - **User Authentication**: Secure login and registration.
 - **User Authorization**: Role-based Authorization. There are mainly two roles, `user` and `admin`.
@@ -26,7 +28,7 @@ This is a full-stack Inventory Management App Project, that is built using Next.
     ```
 4. Set up the environment variables. Create a `.env` file in the root directory and add the necessary variables:
     ```plaintext
-    DB_URL="your_database_url"
+    MONGODB_URI="your_database_url"
     NEXTAUTH_SECRET="Generate_your_own_secret_key"
     NEXTAUTH_URL="http://localhost:3000/"
     ```
