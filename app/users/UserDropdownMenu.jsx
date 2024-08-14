@@ -32,8 +32,6 @@ function UserDropdownMenu({ row, session }) {
     getUserDetails();
   }, [editOpen]);
 
-  console.log(session)
-
   return (
     <>
       {(session.user.isAdmin && row.getValue('username')!='sample') && (
